@@ -1,24 +1,14 @@
 \documentclass[openany,ngerman]{book}
 
-
-% some git related information
-\usepackage{xcolor}
-\usepackage[printwatermark]{xwatermark}
-\usepackage{xstring}
-\usepackage{catchfile}
-
-\def\gitdir{.git/}
-\CatchFileDef{\headfull}{\gitdir HEAD.}{}
-\StrGobbleRight{\headfull}{1}[\head]
-\StrBehind[2]{\head}{/}[\branch]
-
-\CatchFileDef{\commit}{\gitdir refs/heads/\branch.}{}
-
-
-% include git information as watermark
-\newwatermark[allpages,color=black!20,angle=0,scale=0.5,align=left,xpos=-2cm,ypos=13cm]{On branch: \texttt{\branch}\\ Commit: \texttt{\commit}}
+\usepackage[watermark]{gitstatus}
 
 
 \begin{document}
-    This is a test. 
+    This is a test.
+    
+    \gitdir 
+    
+    \gitcommit 
+    
+    \gitbranch 
 \end{document}
