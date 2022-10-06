@@ -1,4 +1,4 @@
-# gitstatus v1.0
+# gitstatus
 
 This package allows to include information about a git-repository into a document.
 
@@ -26,7 +26,7 @@ These variables are:
 
 ### Version
 
-The package is currently at version v1.0.
+The package is currently at version v1.1.
 
 ### Maintainer
 
