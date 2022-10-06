@@ -1,4 +1,8 @@
-# gitstatus
+# gitstatus v1.0
+
+This package allows to include information about a git-repository into a document.
+
+## Introduction
 
 If your LaTeX-document is version-controlled with git, you might encounter situations, where you want to include some information of your git-repository into your LaTeX-document - e.g. to keep track on who gave you feedback on which version of your document. 
 
@@ -17,3 +21,17 @@ These variables are:
 - *\gitdir*
 - *\gitcommit*
 - *\gitbranch*
+
+## About
+
+### Version
+
+The package is currently at version v1.0.
+
+### Maintainer
+
+The code is created and maintained by Maximilian Gruber.
+
+### License
+
+This package is provided under the MIT license.
