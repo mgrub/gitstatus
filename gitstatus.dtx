@@ -1,0 +1,178 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2022 by Maximilian Gruber
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+% \fi
+%
+%
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
+%<package>\ProvidesPackage{gitstatus}
+%<package>    [2022/10/06 v1.0 Watermark Git Information Package]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{gitstatus}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{gitstatus.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \CheckSum{0}
+%
+% \CharacterTable
+% {Upper-case \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+% Lower-case \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+% Digits \0\1\2\3\4\5\6\7\8\9
+% Exclamation \! Double quote \" Hash (number) \#
+% Dollar \$ Percent \% Ampersand \&
+% Acute accent \’ Left paren \( Right paren \)
+% Asterisk \* Plus \+ Comma \,
+% Minus \- Point \. Solidus \/
+% Colon \: Semicolon \; Less than \<
+% Equals \= Greater than \> Question mark \?
+% Commercial at \@ Left bracket \[ Backslash \\
+% Right bracket \] Circumflex \^ Underscore \_
+% Grave accent \‘ Left brace \{ Vertical bar \|
+% Right brace \} Tilde \~}
+%
+% \changes{v1.0}{2022/10/06}{Initial version}
+%
+% \GetFileInfo{gitstatus.sty}
+%
+% \DoNotIndex{\#,\$,\%,\&,\@,\\,\{,\},\^,\_,\~,\ }
+% \DoNotIndex{\@ne}
+% \DoNotIndex{\advance,\begingroup,\catcode,\closein}
+% \DoNotIndex{\closeout,\day,\def,\edef,\else,\empty,\endgroup}
+%
+% \title{The \textsf{gitstatus} package\thanks{This document
+% corresponds to \textsf{gitstatus}~\fileversion,
+% dated~\filedate.}}
+% \author{Maximilian Gruber \\ \texttt{m.gruber@mailbox.org}}
+%
+% \maketitle
+% 
+% \begin{abstract}
+% This package allows to include information about a git-repository into a document.
+% \end{abstract}
+%
+% \section{Introduction}
+% If your LaTeX-document is version-controlled with git, you might encounter situations, where you want to include some information of your git-repository into your LaTeX-document - e.g. to keep track on who gave you feedback on which version of your document. 
+% 
+% \section{Options}
+% \DescribeMacro{gitdir}
+% custom git dir (can be relative), (default is ".git/", meaning your LaTeX document is in the top level of your repo)
+% 
+% \DescribeMacro{watermark}
+% watermark with branch + hash on top of page (default: don't use watermark)
+% 
+% \DescribeMacro{nowatermark}
+% same as watermark=false
+% 
+% \DescribeMacro{novariables}
+% disable creation of variables (default: false, hence variables are created)
+% 
+% 
+% \section{Variables}
+% Apart from the option to add a watermark at the top of the page that mentions the current commit hash and branch-name, the package also provides variables with the same information for individual use. 
+% These variables are:
+% \DescribeMacro{\gitdir}
+% The directory of the git repository. 
+% 
+% \DescribeMacro{\gitcommit}
+% The hash of the most recent commit of the current branch. 
+% 
+% \DescribeMacro{\gitbranch}
+% The name of the current branch. 
+% 
+%
+% \StopEventually{\PrintChanges}
+%
+% \section{Implementation}
+% 
+% \subsection{Required Packages}
+% The package relies on three other packages. 
+% \begin{macrocode}
+\RequirePackage{kvoptions}
+\RequirePackage{catchfile}
+\RequirePackage{xstring}
+% \end{macrocode}
+% 
+% \subsection{Options}
+% \begin{macrocode}
+\DeclareStringOption[.git/]{gitdir}                    % custom git dir (can be relative)
+\DeclareBoolOption[false]{watermark}                   % watermark with branch + hash on top of page
+\DeclareComplementaryOption{nowatermark}{watermark}
+\DeclareBoolOption[false]{novariables}                 % disable creation of variables
+\ProcessKeyvalOptions*
+% \end{macrocode}
+% 
+% 
+% \subsection{Getting Git Information}
+% Git information is read directly from the files within the specified git-directory.
+% 
+% \subsubsection{Branch Name} 
+% Branch is read from HEAD. 
+% \begin{macrocode}
+    \def\gitstatus@headpath{\gitstatus@gitdir HEAD}
+    \IfFileExists{\gitstatus@headpath}{
+        \CatchFileDef{\gitstatus@headfull}{\gitstatus@headpath}{}
+        \StrGobbleRight{\gitstatus@headfull}{1}[\gitstatus@head]
+        \StrBehind[2]{\gitstatus@head}{/}[\gitstatus@branch]
+    }{
+        \def\gitstatus@branch{NOT AVAILABLE}
+        \PackageWarning{gitstatus}{Can't find HEAD (maybe check specified gitdir).}
+    }
+% \end{macrocode}
+%
+% \subsubsection{Commit Hash}
+% Commit-Hash is read from refs/heads/<branch-name>. 
+% \begin{macrocode}
+\def\gitstatus@branchpath{\gitstatus@gitdir refs/heads/\gitstatus@branch}
+\IfFileExists{\gitstatus@branchpath}{
+    \CatchFileDef{\gitstatus@commit}{\gitstatus@branchpath}{}
+}{
+    \def\gitstatus@commit{NOT AVAILABLE}
+    \PackageWarning{gitstatus}{Can't read commit hash (maybe check specified gitdir).}
+}
+% \end{macrocode}
+% 
+% \subsection{Defining Local Variables}
+% Make directory, branch and hash available outside of package
+% \begin{macrocode}
+\ifgitstatus@novariables
+\else
+    \def\gitdir{\gitstatus@gitdir}
+    \def\gitbranch{\gitstatus@branch}
+    \def\gitcommit{\gitstatus@commit}
+\fi
+% \end{macrocode}
+% 
+% \subsection{Creating Watermark}
+% Include git information as watermark.
+% \begin{macrocode}
+\ifgitstatus@watermark
+    \RequirePackage{xcolor}
+    \RequirePackage[printwatermark]{xwatermark}
+    \newwatermark[allpages,color=black!20,angle=0,scale=0.5,align=left,xpos=-2cm,ypos=13cm]{On branch: \texttt{\gitstatus@branch}\\ Commit: \texttt{\gitstatus@commit}}
+\fi
+% \end{macrocode}
+% 
+% \PrintIndex
+% 
+% \Finale
+\endinput
