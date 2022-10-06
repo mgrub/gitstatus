@@ -18,7 +18,7 @@
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
 %<package>\ProvidesPackage{gitstatus}
-%<package>    [2022/10/06 v1.0 Watermark Git Information Package]
+%<package>    [2022/10/06 v1.1 Watermark Git Information Package]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -26,6 +26,7 @@
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
+%\OnlyDescription
 \begin{document}
   \DocInput{gitstatus.dtx}
 \end{document}
@@ -34,23 +35,8 @@
 %
 % \CheckSum{0}
 %
-% \CharacterTable
-% {Upper-case \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
-% Lower-case \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
-% Digits \0\1\2\3\4\5\6\7\8\9
-% Exclamation \! Double quote \" Hash (number) \#
-% Dollar \$ Percent \% Ampersand \&
-% Acute accent \’ Left paren \( Right paren \)
-% Asterisk \* Plus \+ Comma \,
-% Minus \- Point \. Solidus \/
-% Colon \: Semicolon \; Less than \<
-% Equals \= Greater than \> Question mark \?
-% Commercial at \@ Left bracket \[ Backslash \\
-% Right bracket \] Circumflex \^ Underscore \_
-% Grave accent \‘ Left brace \{ Vertical bar \|
-% Right brace \} Tilde \~}
 %
-% \changes{v1.0}{2022/10/06}{Initial version}
+% \changes{v1.1}{2022/10/06}{Initial version}
 %
 % \GetFileInfo{gitstatus.sty}
 %
@@ -105,7 +91,7 @@
 % \section{Implementation}
 % 
 % \subsection{Required Packages}
-% The package relies on three other packages. 
+% The package relies on three (+two for watermark) other packages. 
 % \begin{macrocode}
 \RequirePackage{kvoptions}
 \RequirePackage{catchfile}
@@ -113,6 +99,7 @@
 % \end{macrocode}
 % 
 % \subsection{Options}
+% The options are defined.
 % \begin{macrocode}
 \DeclareStringOption[.git/]{gitdir}                    % custom git dir (can be relative)
 \DeclareBoolOption[false]{watermark}                   % watermark with branch + hash on top of page
