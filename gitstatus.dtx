@@ -91,8 +91,8 @@
 % \section{Implementation}
 % 
 % \subsection{Required Packages}
-% The package relies on three (+two for watermark) other packages. 
-% \begin{macrocode} 
+% The package relies on five other packages. Three are listed here, the other two are only required if a watermark is created.
+% \begin{macrocode}
 \RequirePackage{kvoptions}
 \RequirePackage{catchfile}
 \RequirePackage{xstring}
@@ -115,15 +115,15 @@
 % \subsubsection{Branch Name} 
 % Branch is read from HEAD. 
 % \begin{macrocode}
-    \def\gitstatus@headpath{\gitstatus@gitdir HEAD}
-    \IfFileExists{\gitstatus@headpath}{
-        \CatchFileDef{\gitstatus@headfull}{\gitstatus@headpath}{}
-        \StrGobbleRight{\gitstatus@headfull}{1}[\gitstatus@head]
-        \StrBehind[2]{\gitstatus@head}{/}[\gitstatus@branch]
-    }{
-        \def\gitstatus@branch{NOT AVAILABLE}
-        \PackageWarning{gitstatus}{Can't find HEAD (maybe check specified gitdir).}
-    }
+\def\gitstatus@headpath{\gitstatus@gitdir HEAD}
+\IfFileExists{\gitstatus@headpath}{
+    \CatchFileDef{\gitstatus@headfull}{\gitstatus@headpath}{}
+    \StrGobbleRight{\gitstatus@headfull}{1}[\gitstatus@head]
+    \StrBehind[2]{\gitstatus@head}{/}[\gitstatus@branch]
+}{
+    \def\gitstatus@branch{NOT AVAILABLE}
+    \PackageWarning{gitstatus}{Can't find HEAD (maybe check specified gitdir).}
+}
 % \end{macrocode}
 %
 % \subsubsection{Commit Hash}
