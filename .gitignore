@@ -1,7 +1,13 @@
 *.aux
+*.fdb_latexmk
+*.fls
+*.glo
+*.gz
+*.idx
+*.ilg
+*.ind
 *.log
 *.out
-*.xwm
-*.gz
 *.pdf
-
+*.sty
+*.xwm
