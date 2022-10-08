@@ -93,21 +93,21 @@
 % 
 % \subsection{Required Packages}
 % The package relies on five other packages. Three are listed here, the other two are only required if a watermark is created.
-% \begin{macrocode}
+%    \begin{macrocode}
 \RequirePackage{kvoptions}
 \RequirePackage{catchfile}
 \RequirePackage{xstring}
-% \end{macrocode}
+%    \end{macrocode}
 % 
 % \subsection{Options}
 % The options are defined.
-% \begin{macrocode}
+%    \begin{macrocode}
 \DeclareStringOption[.git/]{gitdir}                    % custom git dir (can be relative)
 \DeclareBoolOption[false]{watermark}                   % watermark with branch + hash on top of page
 \DeclareComplementaryOption{nowatermark}{watermark}
 \DeclareBoolOption[false]{novariables}                 % disable creation of variables
 \ProcessKeyvalOptions*
-% \end{macrocode}
+%    \end{macrocode}
 % 
 % 
 % \subsection{Getting Git Information}
@@ -115,7 +115,7 @@
 % 
 % \subsubsection{Branch Name} 
 % Branch is read from HEAD. 
-% \begin{macrocode}
+%    \begin{macrocode}
 \def\gitstatus@headpath{\gitstatus@gitdir HEAD}
 \IfFileExists{\gitstatus@headpath}{
     \CatchFileDef{\gitstatus@headfull}{\gitstatus@headpath}{}
@@ -125,11 +125,11 @@
     \def\gitstatus@branch{NOT AVAILABLE}
     \PackageWarning{gitstatus}{Can't find HEAD (maybe check specified gitdir).}
 }
-% \end{macrocode}
+%    \end{macrocode}
 %
 % \subsubsection{Commit Hash}
 % Commit-Hash is read from refs/heads/<branch-name>. 
-% \begin{macrocode}
+%    \begin{macrocode}
 \def\gitstatus@branchpath{\gitstatus@gitdir refs/heads/\gitstatus@branch}
 \IfFileExists{\gitstatus@branchpath}{
     \CatchFileDef{\gitstatus@commit}{\gitstatus@branchpath}{}
@@ -137,28 +137,30 @@
     \def\gitstatus@commit{NOT AVAILABLE}
     \PackageWarning{gitstatus}{Can't read commit hash (maybe check specified gitdir).}
 }
-% \end{macrocode}
+%    \end{macrocode}
 % 
 % \subsection{Defining Local Variables}
 % Make directory, branch and hash available outside of package
-% \begin{macrocode}
+%    \begin{macrocode}
 \ifgitstatus@novariables
 \else
     \def\gitdir{\gitstatus@gitdir}
     \def\gitbranch{\gitstatus@branch}
     \def\gitcommit{\gitstatus@commit}
 \fi
-% \end{macrocode}
+%    \end{macrocode}
 % 
 % \subsection{Creating Watermark}
 % Include git information as watermark.
-% \begin{macrocode}
+%    \begin{macrocode}
 \ifgitstatus@watermark
     \RequirePackage{xcolor}
     \RequirePackage[printwatermark]{xwatermark}
-    \newwatermark[allpages,color=black!20,angle=0,scale=0.5,align=left,xpos=-2cm,ypos=13cm]{On branch: \texttt{\gitstatus@branch}\\ Commit: \texttt{\gitstatus@commit}}
+    \newwatermark
+        [allpages,color=black!20,angle=0,scale=0.5,align=left,xpos=-2cm,ypos=13cm]
+        {On branch: \texttt{\gitstatus@branch}\\ Commit: \texttt{\gitstatus@commit}}
 \fi
-% \end{macrocode}
+%    \end{macrocode}
 % 
 % \PrintIndex
 % 
