@@ -34,4 +34,4 @@ The code is created and maintained by Maximilian Gruber.
 
 ### License
 
-This package is provided under the LaTeX Project Public License (LPPL).
+This package is provided under the LaTeX Project Public License 1.3c (LPPL 1.3c).
