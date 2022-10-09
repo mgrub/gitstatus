@@ -26,7 +26,7 @@ These variables are:
 
 ### Version
 
-The package is currently at version v1.1.
+The package is currently at version v1.1.1.
 
 ### Maintainer
 
